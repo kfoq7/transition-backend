@@ -1,0 +1,15 @@
+# Dependencies
+node_modules
+
+# build
+build
+dist
+out
+
+# IDE
+.vscode
+
+# local environments
+.env
+.env.environment
+.env.production
