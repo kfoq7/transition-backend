@@ -12,13 +12,13 @@ export class User {
   @Column({ nullable: true })
   lastName: string
 
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: true })
   username: string
 
   @Column()
   password: string
 
-  @Column({ unique: true, nullable: true })
+  @Column({ unique: true })
   email: string
 
   @OneToMany(() => UserHistory, userHistory => userHistory.user)
