@@ -2,6 +2,7 @@ import { Repository } from 'typeorm'
 import bcrypt from 'bcrypt'
 import { AppDataSource } from '../config/database'
 import { User } from '../entities/user.entity'
+import { AuthUser } from 'src/types'
 
 export class UserService {
   private userRepository: Repository<User>
@@ -12,21 +13,28 @@ export class UserService {
 
   async register(data: User): Promise<User> {
     const { password } = data
+
     const hashedPassword = await bcrypt.hash(password, 10)
+
     const user = this.userRepository.create({
       ...data,
       password: hashedPassword
     })
+
     return this.userRepository.save(user)
   }
 
-  async login(username: string, password: string): Promise<User | null> {
+  async login(username: string, password: string): Promise<AuthUser | null> {
     const user = await this.userRepository.findOne({ where: { username } })
     if (!user) return null
 
     const isPasswordValid = await bcrypt.compare(password, user.password)
     if (!isPasswordValid) return null
 
-    return user
+    const { password: _, ...restUserData } = user
+
+    return {
+      ...restUserData
+    }
   }
 }

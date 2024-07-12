@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { UserHistory } from './user-history.entity'
 
 @Entity()
 export class User {
@@ -11,7 +12,7 @@ export class User {
   @Column({ nullable: true })
   lastName: string
 
-  @Column()
+  @Column({ unique: true })
   username: string
 
   @Column()
@@ -19,4 +20,7 @@ export class User {
 
   @Column({ unique: true, nullable: true })
   email: string
+
+  @OneToMany(() => UserHistory, userHistory => userHistory.user)
+  historyRoutes: UserHistory[]
 }
