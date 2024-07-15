@@ -15,10 +15,10 @@ export const register = async (req: Request, res: Response) => {
 }
 
 export const login = async (req: Request, res: Response) => {
-  const { username, password } = req.body
+  const { email, password } = req.body
 
   try {
-    const user = await userService.login(username, password)
+    const user = await userService.login(email, password)
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' })
     }
